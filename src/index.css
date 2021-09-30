@@ -9,7 +9,8 @@ ul {
   padding-left: 30px;
 }
 #root{
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 .board-row:after {
   clear: both;
@@ -22,28 +23,29 @@ ul {
 }
 
 .square {
-  /* background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 34px;
-  height: 54px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-  width: 54px; */
   position: relative;
 
 }
-.square::before{
-  content: "";
+
+.btn-item {
+  position: relative;
+  width: 33.33333%;
+  border: 4px solid transparent;
+}
+.btn-item:before{
+  content: " ";
   display: block;
   padding-top: 100%;
 }
+.btn-item button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+}
 .square--green {
-  background: #CBD126 !important;
+  background: #2D8C81 !important;
 }
 
 .square:focus {
@@ -62,27 +64,35 @@ ul {
 .game-info {
   margin-left: 20px;
 }
+.card--move-histry {
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+.card--move-histry + .card--move-histry {
+  margin-top: 1rem;
+}
+.card--move-histry .MuiCardContent-root {
+  padding: 10px 16px !important;
+}
 
-.button {
-  background-color: #555555; /* Green */
-  border: none;
+.card--move-histry:hover, 
+.card--move-histry:active,  
+.card--move-histry.--active {
+  background-color: #03256C;
   color: #fff;
-  padding: 5px 10px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 14px;
-  cursor: pointer;
 }
 
-.button--green {
-  background-color: #4caf50;
-  color: #000;
-  font-weight: bold;
-}
-
-.button--new-game {
-  background-color: #bb3219;
-  color: #000;
-  font-weight: bold;
-  margin-left: 2px;
+@media (max-width:575.98px) {
+  #root {
+    height: auto !important;
+  }
+  .gamebox {
+    width: 100% !important;
+    height: auto !important;
+    padding: 1.25rem 0;
+  }
+  .sidebar--move-histry {
+    position: relative !important;
+    width: 100% !important;
+    margin-top: 1.875rem;
+  }
 }

@@ -2,22 +2,30 @@ import React from 'react';
 import Container from '@mui/material/Container';
 import Pricing from './components/Pricing';
 import Box from '@mui/material/Box';
-import { flexbox } from '@mui/system';
 
 import Game from "./components/Game"
 function App() {
   return (
-    <Container  fixed >
-      <Box sx={{
-      minHeight: "100vh",
-      display:"flex",
-    alignItems:"center",
-    justifyContent:"center",
-    marginRight:"220px"
-    }}>
-      <Game />
-      </Box>
-    </Container>
+    <Box 
+      sx={{
+        width: "calc(100% - 220px)",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+      className="gamebox"
+    >
+      <Container fixed >
+        <Box sx={{
+          width:"100%",
+          maxWidth:"300px",
+          margin:"0 auto"
+        }}>
+          <Game />
+        </Box>
+      </Container>
+    </Box>
   );
 }
 

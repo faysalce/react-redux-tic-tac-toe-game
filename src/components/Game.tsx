@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
+import Stack from '@mui/material/Stack';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -151,15 +158,14 @@ const Game = (props: any) => {
         const classButton = move === currentStepNumber ? 'button--green' : '';
 
         return (
-            <ListItem button key={move} onClick={() => jumpTo(move)}>
-
-                <ListItemText primary={desc} secondary={currentLocation} />
-            </ListItem>
-            // <li key={move}>
-            //     <button className={`${classButton} button`} onClick={() => jumpTo(move)}>
-            //         {`${desc} ${currentLocation}`}
-            //     </button>
-            // </li>
+            <Card className="card--move-histry" key={move} onClick={() => jumpTo(move)}>
+                <CardContent>
+                    <Typography variant="button" display="block">
+                        {desc}
+                    </Typography>
+                    <Typography>{currentLocation}</Typography>
+                </CardContent>
+            </Card>
         );
     });
 
@@ -175,7 +181,7 @@ const Game = (props: any) => {
     console.log('game', game);
     return (
         <React.Fragment>
-            <Grid className="melon"  >
+            <Grid>
 
                 <Board
                     squares={current.squares}
@@ -183,34 +189,39 @@ const Game = (props: any) => {
                     onClick={(i: any) => handleClick(i)}
                 />
 
+                <Box>
+                    <Box sx={{ textAlign: "center", padding: "1rem" }}>{status}</Box>
+                    <ButtonGroup
+                        variant="outlined"
+                        sx={{ width: "100%", justifyContent: "center" }}
+                    >
+                        <Button onClick={() => sortMoves()}>
+                            Sort moves
+                        </Button>
+                        <Button onClick={() => reset()}>
+                            New game
+                        </Button>
+                    </ButtonGroup>
+                </Box>
             </Grid>
 
-            <Box sx={{
-                position: "fixed",
-                top: "0",
-                right: "0",
-                bottom: "0",
-                overflowX: "hidden",
-                overflowY: "auto",
-                width: "220px",
-                backgroundColor: "#f1f1f1",
-
-            }}>
-                <div>{status}</div>
-                <button className="button" onClick={() => sortMoves()}>
-                    Sort moves
-                </button>
-                <button className="button button--new-game" onClick={() => reset()}>
-                    New game
-                </button>
+            <Box 
+                sx={{
+                    position: "fixed",
+                    top: "0",
+                    right: "0",
+                    bottom: "0",
+                    overflowX: "hidden",
+                    overflowY: "auto",
+                    width: "220px",
+                    backgroundColor: "#f1f1f1",
+                    padding: "1.25rem"
+                }}
+                className="sidebar--move-histry"
+            >
                 <List>
-                    <CssBaseline />
-
                     {moves}
-
-
                 </List>
-
             </Box>
 
         </React.Fragment>
