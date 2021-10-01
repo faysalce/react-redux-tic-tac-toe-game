@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import CssBaseline from '@mui/material/CssBaseline';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import Board from './Board';
 
 import { connect, useSelector, useDispatch } from 'react-redux';
@@ -64,7 +59,6 @@ const getLocation = (move: any) => {
 const Game = (props: any) => {
     const { game } = useSelector((state: any) => state.game);
 
-    console.log("Game", game);
     const dispatch = useDispatch();
     const [history, historySet] = useState<any>(game?.history?.length > 0 ? game.history : [
         {
@@ -76,11 +70,9 @@ const Game = (props: any) => {
     const [nextPlayer, nextPlayerSet] = useState<any>(game?.nextPlayer ? game.nextPlayer : 'X');
 
     const handleClick = (i: any) => {
-        console.log(i);
         let historyGame: any = history.slice(0, currentStepNumber + 1);
         const current = historyGame[historyGame.length - 1];
         const squares = current.squares.slice();
-        console.log('current', current);
         if (calculateWinner(squares).winner || squares[i]) {
             return;
         }
@@ -94,7 +86,6 @@ const Game = (props: any) => {
                 stepNumber: historyGame.length,
             },
         ]);
-        //console.log("Hostory Details", historySetval);
         historySet(historySetval)
 
         xIsNextSet(!xIsNext)
@@ -145,8 +136,6 @@ const Game = (props: any) => {
 
         // this.setState(initialState);
     }
-    console.log('history 1', history);
-    console.log('currentStepNumber 1', currentStepNumber);
 
     const current = history[currentStepNumber];
 
@@ -158,7 +147,7 @@ const Game = (props: any) => {
         const classButton = move === currentStepNumber ? 'button--green' : '';
 
         return (
-            <Card className="card--move-histry" key={move} onClick={() => jumpTo(move)}>
+            <Card className="card--move-histry move" key={move} data-testid="move"  onClick={() => jumpTo(move)}>
                 <CardContent>
                     <Typography variant="button" display="block">
                         {desc}
@@ -178,7 +167,6 @@ const Game = (props: any) => {
         status = `Next player: ${nextPlayer}`;
     }
 
-    console.log('game', game);
     return (
         <React.Fragment>
             <Grid>
@@ -190,7 +178,7 @@ const Game = (props: any) => {
                 />
 
                 <Box>
-                    <Box sx={{ textAlign: "center", padding: "1rem" }}>{status}</Box>
+                    <Box data-testid="status" className="status" sx={{ textAlign: "center", padding: "1rem" }}>{status}</Box>
                     <ButtonGroup
                         variant="outlined"
                         sx={{ width: "100%", justifyContent: "center" }}
@@ -205,7 +193,7 @@ const Game = (props: any) => {
                 </Box>
             </Grid>
 
-            <Box 
+            <Box
                 sx={{
                     position: "fixed",
                     top: "0",

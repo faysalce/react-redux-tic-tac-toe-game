@@ -9,8 +9,9 @@ const Square = (props: any) => (
         width: "100%",
         fontSize: "2rem"
       }}
+      data-testid="square"
       size="large"
-      variant="contained" className={`${props.winnerClass} square `} onClick={props.onClick} > {props.value}</Button>
+      variant="contained" className={`${props.winnerClass} square `} onClick={props.onClick} >{props.value}</Button>
   </div>
 );
 

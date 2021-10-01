@@ -1,7 +1,5 @@
 import React from 'react';
-import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Box from '@mui/material/Box';
 import Square from './Square';
 
 const Board = (props: any) => {
@@ -17,7 +15,7 @@ const Board = (props: any) => {
             board.push(
 
 
-                <ButtonGroup sx={{
+                <ButtonGroup key={i} sx={{
 
                     margin: '0px',
                     display: 'flex',
