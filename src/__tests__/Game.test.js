@@ -12,11 +12,15 @@ import Game from '../components/Game'
 
 test('display squares with initial state', async () => {
 
-    const initialState = {game:[
-        {
-            squares: Array(9).fill(null),
-        },
-    ]};
+    const initialState = {
+        history: [
+            {
+                squares: Array(9).fill(null),
+            },
+        ],
+        currentStepNumber: 0,
+        xIsNext: true,
+    };
     const middlewares = [thunk]
 
     const mockStore = configureMockStore(middlewares)
@@ -48,11 +52,15 @@ test('display squares with initial state', async () => {
 })
 
 test('X as winner', async () => {
-    const initialState = {game:[
+    const initialState = {
+    history: [
         {
             squares: Array(9).fill(null),
         },
-    ]};
+    ],
+    currentStepNumber: 0,
+    xIsNext: true,
+};
     const middlewares = [thunk]
 
     const mockStore = configureMockStore(middlewares)
@@ -77,11 +85,15 @@ test('X as winner', async () => {
 })
 
 test('O as winner', async () => {
-    const initialState = {game:[
+    const initialState = {
+    history: [
         {
             squares: Array(9).fill(null),
         },
-    ]};
+    ],
+    currentStepNumber: 0,
+    xIsNext: true,
+};
     const middlewares = [thunk]
 
     const mockStore = configureMockStore(middlewares)
@@ -107,11 +119,15 @@ test('O as winner', async () => {
 })
 
 test('game draw', async () => {
-    const initialState = {game:[
+    const initialState = {
+    history: [
         {
             squares: Array(9).fill(null),
         },
-    ]};
+    ],
+    currentStepNumber: 0,
+    xIsNext: true,
+};
     const middlewares = [thunk]
 
     const mockStore = configureMockStore(middlewares)
@@ -140,11 +156,15 @@ test('game draw', async () => {
 })
 
 test('toggle of next player between X and O', async () => {
-    const initialState = {game:[
+    const initialState = {
+    history: [
         {
             squares: Array(9).fill(null),
         },
-    ]};
+    ],
+    currentStepNumber: 0,
+    xIsNext: true,
+};
     const middlewares = [thunk]
 
     const mockStore = configureMockStore(middlewares)
@@ -173,11 +193,15 @@ test('toggle of next player between X and O', async () => {
 })
 
 test('display of history of moves', async () => {
-    const initialState = {game:[
+    const initialState = {
+    history: [
         {
             squares: Array(9).fill(null),
         },
-    ]};
+    ],
+    currentStepNumber: 0,
+    xIsNext: true,
+};
     const middlewares = [thunk]
 
     const mockStore = configureMockStore(middlewares)
@@ -205,11 +229,15 @@ test('display of history of moves', async () => {
 })
 
 test('jump to historic moves', async () => {
-    const initialState = {game:[
+    const initialState = {
+    history: [
         {
             squares: Array(9).fill(null),
         },
-    ]};
+    ],
+    currentStepNumber: 0,
+    xIsNext: true,
+};
     const middlewares = [thunk]
 
     const mockStore = configureMockStore(middlewares)
@@ -275,11 +303,15 @@ test('jump to historic moves', async () => {
 })
 
 test('history reset after new click', async () => {
-    const initialState = {game:[
+    const initialState = {
+    history: [
         {
             squares: Array(9).fill(null),
         },
-    ]};
+    ],
+    currentStepNumber: 0,
+    xIsNext: true,
+};
     const middlewares = [thunk]
 
     const mockStore = configureMockStore(middlewares)
@@ -315,11 +347,15 @@ test('history reset after new click', async () => {
 })
 
 test('click not allowed on filled square', async () => {
-    const initialState = {game:[
+    const initialState = {
+    history: [
         {
             squares: Array(9).fill(null),
         },
-    ]};
+    ],
+    currentStepNumber: 0,
+    xIsNext: true,
+};
 const middlewares = [thunk]
 
 const mockStore = configureMockStore(middlewares)
@@ -338,11 +374,15 @@ render(<Provider store={store}><Game /></Provider>)
 })
 
 test('click not allowed after win', async () => {
-    const initialState = {game:[
+    const initialState = {
+    history: [
         {
             squares: Array(9).fill(null),
         },
-    ]};
+    ],
+    currentStepNumber: 0,
+    xIsNext: true,
+};
     const middlewares = [thunk]
 
     const mockStore = configureMockStore(middlewares)
@@ -371,11 +411,15 @@ test('click not allowed after win', async () => {
 })
 
 test('click not allowed after draw', async () => {
-    const initialState = {game:[
+    const initialState = {
+    history: [
         {
             squares: Array(9).fill(null),
         },
-    ]};
+    ],
+    currentStepNumber: 0,
+    xIsNext: true,
+};
     const middlewares = [thunk]
 
     const mockStore = configureMockStore(middlewares)

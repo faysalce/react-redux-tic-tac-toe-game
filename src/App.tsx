@@ -1,9 +1,7 @@
 import React from 'react';
 import Container from '@mui/material/Container';
-import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history"
-import store from "./store";
 import Box from '@mui/material/Box';
 import Game from "./components/Game"
 
@@ -11,7 +9,7 @@ import AppErrorBoundary from './common/ErrorBoundary';
 const history = createBrowserHistory();
 function App() {
   return (
-    <Provider store={store}>
+    
       <Router history={history} >
         <Box
           sx={{
@@ -36,7 +34,7 @@ function App() {
           </Container>
         </Box>
       </Router>
-    </Provider>
+  
   );
 }
 

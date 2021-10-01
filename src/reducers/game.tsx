@@ -7,11 +7,15 @@ import {
 
     
     const initialState = {
-        game: game ? game : [
-            {
-                squares: Array(9).fill(null),
-            },
-        ]
+        game: game ? game : {
+            history: [
+                {
+                    squares: Array(9).fill(null),
+                },
+            ],
+            currentStepNumber: 0,
+            xIsNext: true,
+        }
        
     };
     

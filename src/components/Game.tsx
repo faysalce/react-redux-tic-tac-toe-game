@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { styled } from '@mui/material/styles';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
@@ -13,6 +13,7 @@ import Board from './Board';
 
 import { connect, useSelector, useDispatch } from 'react-redux';
 import { gameUpdate } from '../actions/game';
+import { keys } from '@mui/system';
 const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
@@ -54,100 +55,91 @@ const getLocation = (move: any) => {
 
     return locationMap[move];
 };
-
+const initialState = {
+    history: [
+        {
+            squares: Array(9).fill(null),
+        },
+    ],
+    currentStepNumber: 0,
+    xIsNext: true,
+};
 
 const Game = (props: any) => {
     const { game } = useSelector((state: any) => state.game);
 
     const dispatch = useDispatch();
-    const [history, historySet] = useState<any>(game?.history?.length > 0 ? game.history : [
-        {
-            squares: Array(9).fill(null),
-        },
-    ]);
-    const [currentStepNumber, currentStepNumberSet] = useState<any>(game?.currentLocationNumber ? game.currentLocationNumber : 0);
-    const [xIsNext, xIsNextSet] = useState<any>(game?.xIsNext === undefined ? true : game.xIsNext);
-    const [nextPlayer, nextPlayerSet] = useState<any>(game?.nextPlayer ? game.nextPlayer : 'X');
+    const [gamesData, gamesDataSet] = useState<any>(game && Object.keys(game).length > 0 ? game : initialState);
 
+    useEffect(() => {
+
+        gamesDataSet(game);
+
+    }, [game])
     const handleClick = (i: any) => {
-        let historyGame: any = history.slice(0, currentStepNumber + 1);
-        const current = historyGame[historyGame.length - 1];
+
+        const history = gamesData.history.slice(0, gamesData.currentStepNumber + 1);
+        const current = history[history.length - 1];
         const squares = current.squares.slice();
+
         if (calculateWinner(squares).winner || squares[i]) {
             return;
         }
-
-        squares[i] = xIsNext ? 'X' : 'O';
-        nextPlayerSet(nextPlayer == "X" ? "O" : "X")
-        let historySetval = historyGame.concat([
-            {
-                squares,
-                currentLocation: getLocation(i),
-                stepNumber: historyGame.length,
-            },
-        ]);
-        historySet(historySetval)
-
-        xIsNextSet(!xIsNext)
-        currentStepNumberSet(historyGame.length)
+        squares[i] = gamesData.xIsNext ? 'X' : 'O';
         let dataforSession = {
-            history: historySetval,
-            currentLocationNumber: historyGame.length - 1,
-            xIsNext: xIsNext,
-            nextPlayer: nextPlayer
-        }
+            history: history.concat([
+                {
+                    squares,
+                    currentLocation: getLocation(i),
+                    stepNumber: history.length,
+                },
+            ]),
+            xIsNext: !gamesData.xIsNext,
+            currentStepNumber: history.length,
+        };
         dispatch(gameUpdate(dataforSession));
+
     }
 
     const jumpTo = (step: any) => {
-        currentStepNumberSet(step)
-        xIsNextSet(step % 2 === 0)
+
         let dataforSession = {
-            history: history,
-            currentLocationNumber: step,
+            history: gamesData.history,
+            currentStepNumber: step,
             xIsNext: step % 2 === 0,
-            nextPlayer: nextPlayer
-        }
+        };
         dispatch(gameUpdate(dataforSession));
 
     }
 
     const sortMoves = () => {
-        historySet(history.reverse())
-        let dataforSession = {
-            history: history,
-            currentLocationNumber: currentStepNumber,
-            xIsNext: xIsNext,
-            nextPlayer: nextPlayer
-        }
-        dispatch(gameUpdate(dataforSession));
 
+        let dataforSession = {
+            history: gamesData.history.reverse(),
+            currentStepNumber: gamesData.currentStepNumber,
+            xIsNext: gamesData.xIsNext,
+        };
+        dispatch(gameUpdate(dataforSession));
     }
 
     const reset = () => {
-        historySet([
-            {
-                squares: Array(9).fill(null),
-            },
-        ]);
-        currentStepNumberSet(0)
-        xIsNextSet(true);
-        dispatch(gameUpdate({}));
 
-        // this.setState(initialState);
+        dispatch(gameUpdate(initialState));
+
     }
 
-    const current = history[currentStepNumber];
+
+    const current = gamesData.history[gamesData.currentStepNumber];
 
     const { winner, winnerRow } = calculateWinner(current.squares);
 
-    const moves = history.map((step: any, move: any) => {
+    const moves = gamesData.history.map((step: any, move: any) => {
         const currentLocation = step.currentLocation ? `(${step.currentLocation})` : '';
         const desc = step.stepNumber ? `Go to move #${step.stepNumber}` : 'Go to game start';
-        const classButton = move === currentStepNumber ? 'button--green' : '';
+        const classButton = move === gamesData.currentStepNumber ? 'button--green' : '';
 
         return (
-            <Card className="card--move-histry move" key={move} data-testid="move"  onClick={() => jumpTo(move)}>
+            <Card className="card--move-histry move" key={move} data-testid="move" onClick={() => jumpTo(move)}>
                 <CardContent>
                     <Typography variant="button" display="block">
                         {desc}
@@ -159,9 +151,10 @@ const Game = (props: any) => {
     });
 
     let status;
+    let nextPlayer = gamesData.xIsNext ? "X" : "O";
     if (winner) {
         status = `Winner ${winner}`;
-    } else if (history.length === 10) {
+    } else if (gamesData.history.length === 10) {
         status = 'Draw. No one won.';
     } else {
         status = `Next player: ${nextPlayer}`;
